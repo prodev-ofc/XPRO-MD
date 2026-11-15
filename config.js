@@ -3,9 +3,9 @@ import fs from 'fs'
 import chalk from 'chalk'
 import 'dotenv/config'
 
-global.ownerName = 'EliteProTech'
-global.botName = 'ELITE-PRO-V2'
-global.repo = 'https://github.com/EliteProTech/ELITE-PRO-V2'
+global.ownerName = 'PRODEV ZW'
+global.botName = 'XPRO-MD'
+global.repo = 'https://github.com/prodev-ofc/XPRO-MD'
 
 global.botMessage = {
     owner: 'This feature is for the Owner only.',
@@ -15,8 +15,8 @@ global.botMessage = {
     isBotAdmin: 'I need to be an admin in this group to do that.'
 }
 global.stickerPack = {
-    packname: 'ELITE-PRO-V2',
-    author: 'EliteProTech'
+    packname: 'XPRO-MD',
+    author: 'prodev-ofc'
 }
 
 const envBoolean = (name, fallback = false) => {
