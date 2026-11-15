@@ -1,6 +1,6 @@
 {
-  "name": "ELITE-PRO-V2",
-  "version": "2.0.0",
+  "name": "xpro-md",
+  "version": "8.1.9",
   "author": "EliteProTech",
   "type": "module",
   "main": "index.js",
