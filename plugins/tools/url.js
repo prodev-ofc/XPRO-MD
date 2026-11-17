@@ -1,3 +1,5 @@
+
+
 import fs from 'fs'
 import { ImgBB, uploadToEliteProTechUrl, uploadToEliteTempUrl } from '../../lib/uploader.js'
 
@@ -7,29 +9,96 @@ const uploaders = {
     tempurl: uploadToEliteTempUrl
 }
 
-let handler = async (m, { args }) => {
+const isMedia = (target) => {
+    if (!target) return false
+
+    const type = target.mtype || target.type || ''
+    const mime = target.mimetype || target.msg?.mimetype || ''
+
+    return (
+        /image|video|audio|document|sticker/i.test(type) ||
+        /^(image|video|audio|application|text)\//i.test(mime)
+    )
+}
+
+const handler = async (m, { args }) => {
     const service = args[0]?.toLowerCase()
     const upload = uploaders[service]
 
     if (!upload) {
-        return await m.reply(`Usage: ${global.prefix || ''}url eliteprotech-url | imgbb | tempurl\nReply to an image, video, audio, document, or sticker.`)
+        return m.reply(
+            `*HOW TO USE URL UPLOADER*
+
+Attach media with caption:
+.url imgbb
+
+Or reply to media:
+.url imgbb
+
+*Available services:*
+• imgbb
+• tempurl
+• eliteprotech-url
+
+Supports images, videos, audio, documents, stickers and files.`
+        )
     }
 
-    const target = m.quoted || (m.mtype === 'imageMessage' || m.mtype === 'videoMessage' || m.mtype === 'audioMessage' || m.mtype === 'documentMessage' || m.mtype === 'stickerMessage' ? m : null)
-    if (!target) {
-        return await m.reply('Reply to a supported media message first.')
+    // Supports both caption commands and replies to media
+    const target = m.quoted || m
+
+    if (!isMedia(target)) {
+        return m.reply(
+            '⚠️ Please attach a file with `.url ' + service +
+            '` in its caption, or reply to a media/file message with the command.'
+        )
     }
 
     let file
+
     try {
+        await m.reply('⏳ Uploading your file...')
+
         file = await target.download(true)
+
+        if (!file || typeof file !== 'string') {
+            throw new Error('Could not download the media file.')
+        }
+
+        if (!fs.existsSync(file)) {
+            throw new Error('Downloaded file was not found.')
+        }
+
         const url = await upload(file)
-        await m.reply(url)
+
+        if (!url || typeof url !== 'string') {
+            throw new Error('Uploader did not return a valid URL.')
+        }
+
+        await m.reply(
+            `✅ *UPLOAD SUCCESSFUL*
+
+🔗 ${url}
+
+> *XPRO-MD* _Powered by PRODEV ZW_*`
+        )
+
     } catch (error) {
-        await m.reply(`Upload failed: ${error.message || String(error)}`)
+        console.error('[URL UPLOADER]', error)
+
+        await m.reply(
+            `❌ *UPLOAD FAILED*
+
+${error.message || String(error)}`
+        )
+
     } finally {
-        if (file && fs.existsSync(file)) {
-            try { fs.unlinkSync(file) } catch {}
+        if (file && typeof file === 'string' && fs.existsSync(file)) {
+            try {
+                fs.unlinkSync(file)
+            } catch (error) {
+                console.error('File cleanup failed:', error)
+            }
         }
     }
 }
@@ -37,3 +106,4 @@ let handler = async (m, { args }) => {
 handler.command = ['url', 'tourl']
 
 export default handler
+

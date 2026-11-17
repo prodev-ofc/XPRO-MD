@@ -1,0 +1,9 @@
+node_modules/
+session/
+.env
+*.log
+.pm2/
+temp/
+tmp/
+.DS_Store
+lib/elitepropic.jpg
