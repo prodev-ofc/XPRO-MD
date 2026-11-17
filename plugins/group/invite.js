@@ -31,7 +31,7 @@ let handler = async (m, { EliteProTech }) => {
                 interactiveMessage: {
                     header,
                     body: { text },
-                    footer: { text: `ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴇʟɪᴛᴇ-ᴘʀᴏ-ᴛᴇᴄʜ©` },
+                    footer: { text: `ᴘᴏᴡᴇʀᴇᴅ ʙʏ xᴘʀᴏ-ᴛᴇᴄʜ©` },
                     nativeFlowMessage: {
                         buttons: [
                             {
@@ -83,7 +83,7 @@ let handler = async (m, { EliteProTech }) => {
     }
 }
 
-handler.command = ['invite', 'grouplink', 'linkgroup']
+handler.command = ['invite', 'grouplink', 'gc', 'glink', 'link']
 handler.group = true
 handler.admin = true
 handler.isBotAdmin = true
