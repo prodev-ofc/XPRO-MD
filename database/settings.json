@@ -1,4 +1,6 @@
 {
   "prefix": ".",
-  "mode": "self"
+  "mode": "public",
+  "antiDelete": false,
+  "antiDeleteMode": "dm"
 }

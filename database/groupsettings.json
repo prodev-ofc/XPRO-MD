@@ -1,1 +1,23 @@
-{}
+{
+  "120363411324898507@g.us": {
+    "antiLink": "warn",
+    "antiLinkLimit": 3,
+    "antiLinkUsers": {},
+    "antiGroupStatus": "off",
+    "antiGroupStatusLimit": 3,
+    "antiGroupStatusUsers": {},
+    "antiBot": "off",
+    "antiBotLimit": 3,
+    "antiBotUsers": {},
+    "antiBadWord": "off",
+    "antiBadWordLimit": 3,
+    "antiBadWordUsers": {},
+    "badWords": [],
+    "autoDeleteUsers": [],
+    "antiGroupEvents": false,
+    "welcome": false,
+    "goodbye": false,
+    "welcomeMessage": "Welcome {user} to *{group}*!\n\nMembers: *{count}*",
+    "goodbyeMessage": "Goodbye {user} from *{group}*."
+  }
+}
