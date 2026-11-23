@@ -55,7 +55,7 @@ async function downloadMedia(EliteProTech, quoted) {
         if (media.length) return media
     }
 
-    throw new Error('The quoted copy has no media download data, and the original is not available in the bot’s message cache. The bot must have received the original while online to recover it.')
+    throw new Error('No media found — not in the quote, and not cached (bot must have been online when it arrived).')
 }
 
 async function sendMedia(EliteProTech, quoted, destination, quotedMessage) {
@@ -90,7 +90,12 @@ let handler = async (m, { command, EliteProTech }) => {
     }
 
     const isViewOnceCommand = command === 'vv' || command === 'vvdm' || command === 'viewonce'
-    const isViewOnce = Boolean(m.quoted.viewOnce || m.quoted.msg?.viewOnce)
+    const wrapperKeys = ['viewOnceMessage', 'viewOnceMessageV2', 'viewOnceMessageV2Extension']
+    const isViewOnce = Boolean(
+        m.quoted.viewOnce ||
+        m.quoted.msg?.viewOnce ||
+        wrapperKeys.some(key => m.quoted.rawMessage?.[key])
+    )
     if (isViewOnceCommand && (!MEDIA_TYPES.has(m.quoted.mtype) || !isViewOnce)) {
         return await m.reply('Reply to a view-once image, video, audio, document, or sticker.')
     }
